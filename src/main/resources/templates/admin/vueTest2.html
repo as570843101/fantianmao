@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="js/vue/2.5.16/vue.min.js"></script>
+</head>
+<body>
+<div id="div1">
+    <wifes></wifes>
+    <wifes></wifes>
+    <wifes></wifes>
+</div>
+<script>
+    new Vue({
+        el:"#div1",
+        component: {
+            "wifes": {
+                template: "<div id='wife'>新垣结衣</div>"
+            }
+        }
+    })
+</script>
+<hr>
+<style type="text/css">
+    #wife{
+        display: inline;
+    }
+</style>
+<div id="div2">
+    <wifes names = "苍井优" popularity="0"></wifes>
+    <wifes names = "飞鸟" popularity="0"></wifes>
+    <wifes names = "新垣结衣" popularity="0"></wifes>
+
+    输入你老婆：<input v-model="outName"/>
+    你老婆是:<wifes :names="outName" popularity="0"/>
+</div>
+<script>
+    Vue.component("wifes",{
+        props:["names","popularity"],
+        template:"<div id='wife' @click='clicks'>wife:{{names}} ,人气:{{popularity}}</div>",
+        methods:{
+            clicks:function () {
+                this.popularity++;
+            }
+        }
+        }
+    )
+
+    new Vue({
+        el:"#div2",
+        data:{
+            outName:"刘亦菲",
+        }
+    })
+</script>
+<hr>
+
+
+</body>
+</html>

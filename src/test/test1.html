@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="/js/vue/2.5.16/vue.min.js"></script>
+
+<div id="div1">
+
+    {{gareen.name}}
+
+</div>
+
+<script>
+
+    //准备数据
+    var gareen = {"name":"盖伦","hp":616};
+
+    //通过vue.js 把数据和对应的视图关联起来
+    new Vue({
+        el: '#div1',
+        data: {
+            message: gareen
+        }
+    })
+
+</script>
+
+
+
+
+</body>
+</html>

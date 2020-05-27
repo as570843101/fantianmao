@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue/2.5.16/vue.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0 auto;
+            text-align:center;
+            line-height: 40px;
+        }
+        div {
+            width: 100px;
+            cursor:pointer;
+        }
+        #grandFather {
+            background: green;
+        }
+        #father {
+            background: blue;
+        }
+        #me {
+            background: red;
+        }#son {
+             background: gray;
+         }
+    </style>
+
+</head>
+<body>
+    <div id="div1">
+        {{hero.name}}
+    </div>
+    <div id="div2">
+        点击了{{chickNumber}}次
+        <button @click="count">attack</button>
+    </div>
+        <script>
+            var hero = {"name":"gm","power":"lv5"};
+            var vm1 = new Vue({
+                el:'#div1',
+                data:{
+                    message:hero
+                }
+            });
+            var vm2 = new Vue({
+                el:'#div2',
+                data:{
+                    chickNumber:0
+                },
+                methods:{
+                    count : function(){
+                        this.chickNumber++;
+                    }
+                }
+            })
+        </script>
+    <hr>
+        <div id="content">
+        <div id="grandFather"  @click.once="doc">
+            grandFather
+            <div id="father" @click.capture="doc">
+                father
+                <div id="me" @click.stop="doc">
+                    me
+                    <div id="son" @click.self="doc">
+                        son
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var content = new Vue({
+            el:"#content",
+            data:{
+                id:""
+                },
+            methods : {
+                doc: function () {
+                    this.id = event.currentTarget.id;
+                    alert(this.id)
+                }
+            }
+            })
+    </script>
+ <hr>
+ <div id="div3">
+ <button v-on:click="toggle">隐藏or显示</button>
+ <div v-if="show">i am hero 哒</div>
+ </div>
+<script>
+    var vm3 = new Vue({
+        el:"#div3",
+        data:{
+            show:false
+        },
+        methods: {
+            toggle: function () {
+            this.show =! this.show;
+            }
+        }
+    })
+</script>
+<hr>
+    <div id="div4">
+        <button v-on:click="toggle">买彩票</button>
+        <div v-if="show">没有中</div>
+        <div v-else>中500W</div>
+    </div>
+    <script>
+        var vm4 = new Vue({
+            el:"#div4",
+            data:{
+                show:true
+            },
+            methods: {
+                toggle: function () {
+                    var num1 = Math.random();
+                    console.log(num1);
+                    this.show =num1>0.1;
+                    console.log(this.show);
+                }
+            }
+        })
+    </script>
+    <hr>
+    <div id="div5">
+        <button v-on:click="toggle">随机老婆</button>
+        <div v-if="num2>80">十元里美</div>
+        <div v-else-if="num2>60">新垣结衣</div>
+        <div v-else-if="num2>40">飞鸟</div>
+        <div v-else-if="num2>20">苍井优</div>
+        <div v-else>刘亦菲</div>
+    </div>
+    <script>
+        var vm4 = new Vue({
+            el:"#div5",
+            data:{
+                num2:100
+            },
+            methods: {
+                toggle: function () {
+                    var num3 = Math.random()*100;
+                    console.log(num3);
+                    this.num2 = num3;
+                    console.log(this.num2);
+                }
+            }
+        })
+    </script>
+    <hr>
+    <div id="div6">
+        <table border="1xp">
+            <tr>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr v-for = "wife in wifes">
+                <td>{{wife.name}}</td>
+                <td>{{wife.age}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+<script>
+    var data = [
+        {name:"十元里美",age:27},
+        {name:"新垣结衣",age:26},
+        {name:"飞鸟",age:22},
+        {name:"苍井优",age:28},
+        {name:"刘亦菲",age:28}
+        ];
+    var vm5 = new Vue({
+        el:"#div6",
+        data:{
+            wifes:data
+        }
+    })
+</script>
+<hr>
+<div id="div7">
+    <a v-bind:href="page1">百度</a>
+    <a :href="page2">知乎</a>
+</div>
+<script>
+    var vm6 = new Vue({
+        el:"#div7",
+        data:{
+            page1:"https:www.baidu.com",
+            page2:"https:www.zhihu.com"
+        }
+    })
+</script>
+<hr>
+    <div id="div8">
+        输入你老婆名字<input v-model.lazy="name">
+        你老婆：<a>{{name}}</a>
+    </div>
+    <script>
+        var vm6 = new Vue({
+            el:"#div8",
+            data:{
+                name:"新垣结衣",
+            },
+
+        })
+    </script>
+<hr>
+    <style>
+        table tr td{
+            border:1px solid gray;
+            padding:10px;
+
+        }
+        table{
+            border-collapse:collapse;
+            width:800px;
+            table-layout:fixed;
+        }
+        tr.firstLine{
+            background-color: lightGray;
+        }
+    </style>
+    <table id="table1">
+        <tr class="firstLine">
+            <td>人民币</td>
+            <td>美元</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="number" v-model.number ="exchange" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ￥<input type="number" v-model.number="rmb">
+            </td>
+            <td>
+
+                $<input type="number" v-model.number="dollar">
+
+            </td>
+        </tr>
+    </table>
+<script>
+    var vm7 = new Vue({
+        el:"#table1",
+        data:{
+            exchange:6.4,
+            rmb:0,
+            dollar:0
+        },
+        watch:{
+            rmb:function (val) {
+                this.rmb = val
+                this.dollar = this.rmb/this.exchange;
+            },
+            dollar:function (val) {
+                this.dollar = val
+                this.rmb = this.dollar*this.exchange;
+            }
+        }
+    })
+</script>
+    <hr>
+<table class="table2">
+    <tr class="firstLine">
+        <td>输入数据</td>
+        <td>过滤后的结果</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" v-model="num3"/>
+        </td>
+        <td>
+            {{num3|beginUp|endUp}}
+        </td>
+    </tr>
+</table>
+<script>
+    new Vue({
+        el:".table2",
+        data:{
+            num3:""
+        },
+        filters:{
+            beginUp:function (val) {
+                if(!val) return "";
+                val = val.toString();
+                return val.charAt(0).toUpperCase()+val.substring(1);
+            },
+            endUp:function (val) {
+                if(!val) return "";
+                val = val.toString();
+                return val.substring(0,val.length-1)+val.charAt(val.length-1).toUpperCase();
+            }
+        }
+    })
+</script>
+<hr>
+    <table class="table3">
+        <tr class="firstLine">
+            <td>输入数据</td>
+            <td>过滤后的结果</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" v-model="num4"/>
+            </td>
+            <td>
+                {{num4|beginUp1|endUp1}}
+            </td>
+        </tr>
+    </table>
+    <script>
+        new Vue({
+            el:".table3",
+            data:{
+                num4:""
+            }
+        })
+     Vue.filter("beginUp1",function(val){
+         if(!val) return "";
+         val = val.toString();
+         return val.charAt(0).toUpperCase()+val.slice(1);
+     })
+      Vue.filter("endUp1",function(val){
+         if(!val) return "";
+         val = val.toString();
+         return val.slice(0,val.length-1)+val.charAt(val.length-1).toUpperCase();
+      })
+    </script>
+<hr>
+</body>
+</html>
