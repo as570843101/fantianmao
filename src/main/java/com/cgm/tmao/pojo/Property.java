@@ -17,7 +17,7 @@ public class Property {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne  //一个分类中可能有多个属性
     @JoinColumn(name = "c_id")
 
     private Category category;
